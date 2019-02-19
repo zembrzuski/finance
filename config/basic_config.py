@@ -1,0 +1,1 @@
+data_local_storage_filepath = '/home/zembrzuski/labs/the-trading-project/data/'
