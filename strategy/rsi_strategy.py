@@ -3,11 +3,11 @@ import numpy as np
 
 
 def estou_comprado_logic(rsi, i):
-    return 'VENDER' if rsi[i] > 70 else 'NOP'
+    return 'VENDER' if rsi[i] > 75 else 'NOP'
 
 
 def nao_estou_comprado_logic(rsi, i):
-    return 'COMPRAR' if rsi[i] < 30 else 'NOP'
+    return 'COMPRAR' if rsi[i] < 25 else 'NOP'
 
 
 def resolve_estou_comprado_flag(estou_comprado, operation):
