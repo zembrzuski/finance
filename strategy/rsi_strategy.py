@@ -61,6 +61,14 @@ def compute_statistics_from_orders(all_orders):
     return statistics
 
 
+def compoe_lucros(lucros):
+    dinheiro = 100
+
+    for lucro in lucros:
+        dinheiro = (lucro / 100 * dinheiro) + dinheiro
+
+    return dinheiro - 100
+
 
 def execute(dates, price):
     rsi = RSI(price, timeperiod=14)
@@ -70,7 +78,7 @@ def execute(dates, price):
     lucros = np.array(list(map(lambda x: x['percentual_lucro'], statistics)))
 
     # print('\n'.join(list(map(lambda x: str(x[0]) + ' ' + x[1] + '\t' + str(x[2]), all_orders))))
-    nplucros = np.array(lucros)
+    nplucros = compoe_lucros(lucros)
 
     return np.sum(nplucros)
 
