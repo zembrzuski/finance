@@ -4,6 +4,7 @@ import numpy as np
 import strategy.buy_and_hold_strategy as buy_and_hold
 import strategy.macd_strategy as macd_strategy
 import service.trade_helper as trade_helper
+import strategy.rsi_strategy as rsi_strategy
 import pprint
 
 
@@ -19,6 +20,7 @@ def main():
 
     print('lucro com buy and hold: ' + str(profit[0]['profit_percentage']))
     print('lucro com macd: ' + str(macd_strategy.execute(date, close)))
+    print('lucro com rsi: ' + str(rsi_strategy.execute(date, close)))
 
 
 if __name__ == '__main__':
