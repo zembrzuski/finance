@@ -17,9 +17,8 @@ def main():
     trades = buy_and_hold.execute(date, close)
     profit = list(map(lambda trade: trade_helper.compute_profit(trade), trades))
 
-    macd_strategy.execute(date, close)
-
-    print(pprint.pformat(profit))
+    print('lucro com buy and hold: ' + str(profit[0]['profit_percentage']))
+    print('lucro com macd: ' + str(macd_strategy.execute(date, close)))
 
 
 if __name__ == '__main__':

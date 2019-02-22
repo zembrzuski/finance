@@ -71,6 +71,6 @@ def execute(dates, price):
     # print('\n'.join(list(map(lambda x: str(x[0]) + ' ' + x[1] + '\t' + str(x[2]), all_orders))))
     nplucros = np.array(lucros)
 
-    print(np.sum(nplucros))
+    return np.sum(nplucros)
 
 
