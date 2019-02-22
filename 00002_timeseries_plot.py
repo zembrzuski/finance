@@ -9,7 +9,7 @@ def main():
     value = file_content['Adj Close'].values
     date = list(map(lambda x: date_helper.parse_date_to_datetime(x), file_content['Date']))
 
-    plt.plot(date, np.log(value))
+    plt.plot(date, value)
     plt.show()
 
 
