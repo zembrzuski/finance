@@ -13,7 +13,6 @@ def execute(dates, price):
     }
 
     all_orders = stragegy_helper_single_indicator.get_orders(dates, price, indicator)
-    all_orders_legacy_format = list(map(lambda x: (x['date'], x['operation'], x['price']), all_orders))
-    statistics = trade_helper.compute_statistics_from_orders(all_orders_legacy_format)
+    statistics = trade_helper.compute_statistics_from_orders(all_orders)
 
     return trade_helper.compoe_lucros(statistics)

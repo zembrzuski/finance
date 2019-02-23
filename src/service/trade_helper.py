@@ -5,12 +5,16 @@ from decimal import *
 def compute_statistics_from_orders(all_orders):
     """
     all_orders eh uma lista de order
-    order eh uma tupla como no exemplo: (datetime, 'COMPRAR', Decimal(34.35))
-    order eh uma tupla como no exemplo: (datetime, 'NOP', Decimal(3.35))
-    order eh uma tupla como no exemplo: (datetime, 'VENDER', Decimal(1.2))
+    order eh uma dict conforme abaixo
+    {
+        'date': datetime,
+        'operation': 'COMPRAR' ou 'VENDER',
+        'price': Decimal(price[i]),
+        'indicator': indicator['series'][i]
+    }
     """
 
-    statistics = []
+    trades_statistics = []
 
     for i in range(0, len(all_orders), 2):
         ordem_compra = all_orders[i]
@@ -19,12 +23,33 @@ def compute_statistics_from_orders(all_orders):
         numero_dias_ordem = ordem_venda[0] - ordem_compra[0]
         percentual_lucro = ((Decimal(ordem_venda[2]) / Decimal(ordem_compra[2]))-Decimal(1))*Decimal(100)
 
-        statistics.append({
+        trades_statistics.append({
             'numero_dias_ordem': numero_dias_ordem.days,
             'percentual_lucro': percentual_lucro
         })
 
-    return statistics
+    return {
+        'all_trades': {
+            'compount_profit': None,
+            'number_of_trades': None,
+            'buy_indicator': {
+                'mean': None,
+                'sd_dev': None
+            },
+            'sell_indicator': {
+                'mean': None,
+                'sd_dev': None
+            },
+            'period_of_trades': {
+                'mean': None,
+                'sd_dev': None
+            },
+            'profit': {
+                'mean': None,
+                'sd_dev': None
+            }
+        }
+    }
 
 
 def compoe_lucros(statistics):
