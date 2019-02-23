@@ -16,7 +16,7 @@ def main():
     prices = file_content['Adj Close'].values
     dates = np.array(list(map(lambda x: date_helper.parse_date_to_datetime(x), file_content['Date'])))
 
-    # dates, prices = period_sampler_service.do_single_sampling(dates, prices)
+    dates, prices = period_sampler_service.do_single_sampling(dates, prices)
 
     print('lucro com buy and hold: ' + str(buy_and_hold_strategy.execute(dates, prices)))
     print('lucro com macd: ' + str(macd_strategy.execute(dates, prices)))
