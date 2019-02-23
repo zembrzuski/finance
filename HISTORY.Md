@@ -2,8 +2,18 @@
 HISTORY
 -------
 
+2019-02-23 11:00
+---
 
-2019-02-23
+- TODO
+    - gerar estatísticas para muitos casos aleatórios e ver se alguma
+      estratégia se destaca. Lembrando que, no longuíssimo prazo, 
+      todas as estratégias se mostraram ótimas.
+    - em seguida, no passo seguinte, tentar identificar casos em que 
+      as estrategias falham.
+
+
+2019-02-23 10:00
 ---
 
 - Resultado com todo período histórico (~20 anos) de PETR4.SA
