@@ -3,10 +3,12 @@ from decimal import *
 
 
 def compute_statistics_from_orders(all_orders):
-    # all_orders eh uma lista de order
-    # order eh uma tupla como no exemplo: (datetime, 'COMPRAR', Decimal(34.35))
-    # order eh uma tupla como no exemplo: (datetime, 'NOP', Decimal(3.35))
-    # order eh uma tupla como no exemplo: (datetime, 'VENDER', Decimal(1.2))
+    """
+    all_orders eh uma lista de order
+    order eh uma tupla como no exemplo: (datetime, 'COMPRAR', Decimal(34.35))
+    order eh uma tupla como no exemplo: (datetime, 'NOP', Decimal(3.35))
+    order eh uma tupla como no exemplo: (datetime, 'VENDER', Decimal(1.2))
+    """
 
     statistics = []
 
@@ -26,11 +28,13 @@ def compute_statistics_from_orders(all_orders):
 
 
 def compoe_lucros(statistics):
-    # statistics eh um dict como no exempo
-    # {
-    #   'numero_dias_ordem': DIFERENCA ENTRE DOIS DATETIMES (nao lembro qual eh o tipo do objeto)
-    #   'percentual_lucro': Decimal(32.5)  --> isso no caso do trade ter dado 32.5% de lucro.
-    # }
+    """
+    statistics eh um dict como no exempo
+    {
+      'numero_dias_ordem': DIFERENCA ENTRE DOIS DATETIMES (nao lembro qual eh o tipo do objeto)
+      'percentual_lucro': Decimal(32.5)  --> isso no caso do trade ter dado 32.5% de lucro.
+    }
+    """
 
     lucros = np.array(list(map(lambda x: x['percentual_lucro'], statistics)))
 
