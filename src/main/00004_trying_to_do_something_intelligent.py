@@ -18,10 +18,10 @@ def main():
 
     # dates, prices = period_sampler_service.do_single_sampling(dates, prices)
 
-    # print('lucro com buy and hold: ' + str(buy_and_hold_strategy.execute(dates, prices)))
+    print('lucro com buy and hold: ' + str(buy_and_hold_strategy.execute(dates, prices)))
     print('lucro com macd: ' + str(macd_strategy.execute(dates, prices)))
-    # print('lucro com rsi: ' + str(rsi_strategy.execute(dates, prices)))
-    # print('lucro com rsi e macd: ' + str(rsi_and_macd_strategy.execute(dates, prices)))
+    print('lucro com rsi: ' + str(rsi_strategy.execute(dates, prices)))
+    print('lucro com rsi e macd: ' + str(rsi_and_macd_strategy.execute(dates, prices)))
 
 
 if __name__ == '__main__':
