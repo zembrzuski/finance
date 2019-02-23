@@ -2,16 +2,17 @@ import src.service.trade_helper as trade_helper
 from decimal import *
 
 
-def have_not_bought_logic(indicator, i):
-    return 'COMPRAR' if indicator['series'][i] > indicator['rule']['buy'] else 'NOP'
+def have_not_bought_logic(indicator_go_up, i):
+    return 'COMPRAR' if indicator_go_up[i] else 'NOP'
 
 
-def have_bought_logic(indicator, i):
-    return 'VENDER' if indicator['series'][i] < indicator['rule']['sell'] else 'NOP'
+def have_bought_logic(indicator_go_up, i):
+    return 'VENDER' if not indicator_go_up[i] else 'NOP'
 
 
 def create_operation_for_today(dates, estou_comprado, indicator, i):
-    operation = have_bought_logic(indicator, i) if estou_comprado else have_not_bought_logic(indicator, i)
+    indicator_go_up = indicator['go_up']
+    operation = have_bought_logic(indicator_go_up, i) if estou_comprado else have_not_bought_logic(indicator_go_up, i)
 
     return {
         'date': dates[i],

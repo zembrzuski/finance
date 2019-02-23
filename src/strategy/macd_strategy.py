@@ -8,10 +8,7 @@ def execute(dates, price):
 
     indicator = {
         'series': macdsignal,
-        'rule': {
-            'buy': 0,
-            'sell': 0
-        }
+        'go_up': macdsignal > 0
     }
 
     all_orders = stragegy_helper_single_indicator.get_orders(dates, price, indicator)

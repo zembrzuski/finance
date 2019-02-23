@@ -11,76 +11,47 @@ class TestUM(unittest.TestCase):
 
     def test_nao_estou_comprado_logic__should_buy(self):
         # given
-        indicator = {
-            'series': [-.3, -.1, 0.1, .7],
-            'rule': {
-                'buy': 0,
-                'sell': 0
-            }
-        }
-
+        indicator_go_up = [False, False, True, True, False]
         i = 2
 
         # when
-        result = strategy_helper_single_indicator.have_not_bought_logic(indicator, i)
+        result = strategy_helper_single_indicator.have_not_bought_logic(indicator_go_up, i)
 
         # then
         self.assertEqual(result, 'COMPRAR')
 
     def test_nao_estou_comprado_logic__should_not_buy(self):
         # given
-        indicator = {
-            'series': [-.3, -.1, 0.1, .7],
-            'rule': {
-                'buy': 0,
-                'sell': 0
-            }
-        }
-
+        indicator_go_up = [False, False, True, True, False]
         i = 1
 
         # when
-        result = strategy_helper_single_indicator.have_not_bought_logic(indicator, i)
+        result = strategy_helper_single_indicator.have_not_bought_logic(indicator_go_up, i)
 
         # then
         self.assertEqual(result, 'NOP')
 
-    def test_estou_comprado_logic__should_buy(self):
+    def test_estou_comprado_logic__should_sell(self):
         # given
-        indicator = {
-            'series': [-.3, -.1, 0.1, .7],
-            'rule': {
-                'buy': 0,
-                'sell': 0
-            }
-        }
-
-        i = 1
+        indicator_go_up = [False, False, True, True, False]
+        i = 0
 
         # when
-        result = strategy_helper_single_indicator.have_bought_logic(indicator, i)
+        result = strategy_helper_single_indicator.have_bought_logic(indicator_go_up, i)
 
         # then
         self.assertEqual(result, 'VENDER')
 
-    def test_estou_comprado_logic__should_not_buy(self):
+    def test_estou_comprado_logic__should_not_sell(self):
         # given
-        indicator = {
-            'series': [-.3, -.1, 0.1, .7],
-            'rule': {
-                'buy': 0,
-                'sell': 0
-            }
-        }
-
+        indicator_go_up = [False, False, True, True, False]
         i = 2
 
         # when
-        result = strategy_helper_single_indicator.have_bought_logic(indicator, i)
+        result = strategy_helper_single_indicator.have_bought_logic(indicator_go_up, i)
 
         # then
         self.assertEqual(result, 'NOP')
-
 
     def test_create_operation_when_have_bought(self):
         # given
@@ -92,21 +63,17 @@ class TestUM(unittest.TestCase):
         ]
 
         estou_comprado = True
+        i = 3
 
         indicator = {
-            'series': [-.5, .5, .3, -.1],
-            'rule': {
-                'buy': 0,
-                'sell': 0
-            }
+            'series': [.1, .2, .3, -.5],
+            'go_up': [True, True, True, False]
         }
-
-        i = 3
 
         expected = {
             'date': dates[3],
             'operation': 'VENDER',
-            'indicator_value': indicator['series'][i]
+            'indicator_value': -.5
         }
 
         # when
@@ -124,13 +91,9 @@ class TestUM(unittest.TestCase):
         ]
 
         estou_comprado = False
-
         indicator = {
-            'series': [-.5, .5, -.3, -.1],
-            'rule': {
-                'buy': 0,
-                'sell': 0
-            }
+            'series': [.1, .2, -.1, .3],
+            'go_up': [True, True, False, True],
         }
 
         i = 2
@@ -138,7 +101,7 @@ class TestUM(unittest.TestCase):
         expected = {
             'date': dates[2],
             'operation': 'NOP',
-            'indicator_value': indicator['series'][i]
+            'indicator_value': -.1
         }
 
         # when
@@ -161,10 +124,7 @@ class TestUM(unittest.TestCase):
         price = [12.3, 12.5, 10.2, 8.4, 15.4, 18.2, 22.3]
         indicator = {
             'series': [-.5, .5, -.2, -.3, 5.4, 18.2, -.5],
-            'rule': {
-                'buy': 0,
-                'sell': 0
-            }
+            'go_up': [False, True, False, False, True, True, False]
         }
 
         expected = [
@@ -195,10 +155,7 @@ class TestUM(unittest.TestCase):
         price = [12.3, 12.5, 10.2, 8.4, 15.4, 18.2, 22.3]
         indicator = {
             'series': [-.5, .5, -.2, -.3, 5.4, 18.2, .5],
-            'rule': {
-                'buy': 0,
-                'sell': 0
-            }
+            'go_up': [False, True, False, False, True, True, True]
         }
 
         expected = [
