@@ -1,44 +1,26 @@
 from talib import RSI, MACD
 import src.service.trade_helper as trade_helper
-
-
-def estou_comprado_logic(rsi, macdsignal, i):
-    return 'VENDER' if rsi[i] > 70 and macdsignal[i] < 0 else 'NOP'
-
-
-def nao_estou_comprado_logic(rsi, macdsignal, i):
-    return 'COMPRAR' if rsi[i] < 30 and macdsignal[i] > 0else 'NOP'
-
-
-def create_operation_for_today(rsi, macdsignal, date, estou_comprado, i):
-    operation = estou_comprado_logic(rsi, macdsignal, i) \
-        if estou_comprado \
-        else nao_estou_comprado_logic(rsi, macdsignal, i)
-
-    return date[i], operation
-
-
-def get_orders(rsi, macdsignal, dates, price):
-    estou_comprado = False
-
-    all_operations = []
-    for i in range(0, len(rsi)):
-        date, operation = create_operation_for_today(rsi, macdsignal, dates, estou_comprado, i)
-        estou_comprado = trade_helper.resolve_estou_comprado_flag(estou_comprado, operation)
-        all_operations.append((date, operation, price[i]))
-
-    filtered = list(filter(lambda x: x[1] != 'NOP', all_operations))
-
-    if len(filtered) > 0 and filtered[-1][1] == 'COMPRAR':
-        filtered.append((dates[-1], 'VENDER', price[-1]))
-
-    return filtered
+import src.service.strategy_helper_single_indicator as stragegy_helper_single_indicator
 
 
 def execute(dates, price):
     rsi = RSI(price, timeperiod=14)
     macd, macdsignal, macdhist = MACD(price, fastperiod=12, slowperiod=26, signalperiod=9)
-    all_orders = get_orders(rsi, macdsignal, dates, price)
-    statistics = trade_helper.compute_statistics_from_orders(all_orders)
+
+    rsi_buy = (rsi < 30) + 0
+    rsi_sell = (rsi > 70) + 0
+
+    macd_buy = (macdsignal > 0) + 0
+    macd_sell = (macdsignal < 0) + 0
+
+    indicator = {
+        'series': macdsignal,
+        'go_up': (rsi_buy + macd_buy) == 2,
+        'go_down': (rsi_sell + macd_sell) == 2
+    }
+
+    all_orders = stragegy_helper_single_indicator.get_orders(dates, price, indicator)
+    all_orders_legacy_format = list(map(lambda x: (x['date'], x['operation'], x['price']), all_orders))
+    statistics = trade_helper.compute_statistics_from_orders(all_orders_legacy_format)
 
     return trade_helper.compoe_lucros(statistics)
