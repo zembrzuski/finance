@@ -1,7 +1,7 @@
 import unittest
 import datetime
 import src.service.strategy_helper_single_indicator as strategy_helper_single_indicator
-# from decimal import *
+from decimal import *
 
 
 class TestUM(unittest.TestCase):
@@ -148,20 +148,71 @@ class TestUM(unittest.TestCase):
 
     def test_get_orders_when_should_not_force_to_sell_on_the_last_day(self):
         # given
-        dates = None
-        price = None
-        indicator = None
+        dates = [
+            datetime.datetime(2010, 10, 10), # NOP
+            datetime.datetime(2010, 10, 11), # COMPRA
+            datetime.datetime(2010, 10, 12), # VENDE
+            datetime.datetime(2010, 10, 13), # NOP
+            datetime.datetime(2010, 10, 14), # COMPRA
+            datetime.datetime(2010, 10, 15), # NOP
+            datetime.datetime(2010, 10, 16), # VENDE
+        ]
 
-        expected = None
+        price = [12.3, 12.5, 10.2, 8.4, 15.4, 18.2, 22.3]
+        indicator = {
+            'series': [-.5, .5, -.2, -.3, 5.4, 18.2, -.5],
+            'rule': {
+                'buy': 0,
+                'sell': 0
+            }
+        }
+
+        expected = [
+            {'date': datetime.datetime(2010, 10, 11), 'operation': 'COMPRAR', 'price': Decimal(12.5), 'indicator': .5},
+            {'date': datetime.datetime(2010, 10, 12), 'operation': 'VENDER', 'price': Decimal(10.2), 'indicator': -.2},
+            {'date': datetime.datetime(2010, 10, 14), 'operation': 'COMPRAR', 'price': Decimal(15.4), 'indicator': 5.4},
+            {'date': datetime.datetime(2010, 10, 16), 'operation': 'VENDER', 'price': Decimal(22.3), 'indicator': -.5}
+        ]
 
         # when
         result = strategy_helper_single_indicator.get_orders(dates, price, indicator)
 
         # then
-        self.fail()
+        self.assertEqual(result, expected)
 
-    # def test_get_orders_when_should_force_to_sell_on_the_last_day(self):
-    #     self.fail()
+    def test_get_orders_when_should_force_to_sell_on_the_last_day(self):
+        # given
+        dates = [
+            datetime.datetime(2010, 10, 10), # NOP
+            datetime.datetime(2010, 10, 11), # COMPRA
+            datetime.datetime(2010, 10, 12), # VENDE
+            datetime.datetime(2010, 10, 13), # NOP
+            datetime.datetime(2010, 10, 14), # COMPRA
+            datetime.datetime(2010, 10, 15), # NOP
+            datetime.datetime(2010, 10, 16), # NOP
+        ]
+
+        price = [12.3, 12.5, 10.2, 8.4, 15.4, 18.2, 22.3]
+        indicator = {
+            'series': [-.5, .5, -.2, -.3, 5.4, 18.2, .5],
+            'rule': {
+                'buy': 0,
+                'sell': 0
+            }
+        }
+
+        expected = [
+            {'date': datetime.datetime(2010, 10, 11), 'operation': 'COMPRAR', 'price': Decimal(12.5), 'indicator': .5},
+            {'date': datetime.datetime(2010, 10, 12), 'operation': 'VENDER', 'price': Decimal(10.2), 'indicator': -.2},
+            {'date': datetime.datetime(2010, 10, 14), 'operation': 'COMPRAR', 'price': Decimal(15.4), 'indicator': 5.4},
+            {'date': datetime.datetime(2010, 10, 16), 'operation': 'VENDER', 'price': Decimal(22.3), 'indicator': .5}
+        ]
+
+        # when
+        result = strategy_helper_single_indicator.get_orders(dates, price, indicator)
+
+        # then
+        self.assertEqual(result, expected)
 
 
 if __name__ == '__main__':
