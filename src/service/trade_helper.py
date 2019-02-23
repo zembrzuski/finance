@@ -1,5 +1,5 @@
 import numpy as np
-
+from decimal import *
 
 def compute_profit(a_trade):
     return {
@@ -16,7 +16,7 @@ def compute_statistics_from_orders(all_orders):
         ordem_venda = all_orders[i+1]
 
         numero_dias_ordem = ordem_venda[0] - ordem_compra[0]
-        percentual_lucro = ((ordem_venda[2] / ordem_compra[2])-1)*100
+        percentual_lucro = ((Decimal(ordem_venda[2]) / Decimal(ordem_compra[2]))-Decimal(1))*Decimal(100)
 
         statistics.append({
             'numero_dias_ordem': numero_dias_ordem,

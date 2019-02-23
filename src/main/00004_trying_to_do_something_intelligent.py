@@ -1,10 +1,11 @@
-import src.service.file_io_service as file_io_service
-import src.service.date_helper as date_helper
 import numpy as np
-import src.strategy.macd_strategy as macd_strategy
-import src.strategy.rsi_strategy as rsi_strategy
+
+import src.service.date_helper as date_helper
+import src.service.file_io_service as file_io_service
 import src.strategy.buy_and_hold_strategy as buy_and_hold_strategy
+import src.strategy.macd_strategy as macd_strategy
 import src.strategy.rsi_and_macd_strategy as rsi_and_macd_strategy
+import src.strategy.rsi_strategy as rsi_strategy
 
 
 def main():
