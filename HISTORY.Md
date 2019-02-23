@@ -13,6 +13,16 @@ HISTORY
       as estrategias falham.
 
 
+- para uma determinada estrategia
+  - computar o número de trades
+  - computar o número de trades que deram certo
+  - computar o número de trades que deram errado
+  - computar a media/desvio padrao do periodo dos trades que deram certo
+  - computar a media/desvio padrao do periodo trades que deram errado
+  - computar a media/desvio padrao do indicador dos trades que deram certo
+  - computar a media/desvio padrao do indicador dos trades que deram errado
+
+
 2019-02-23 10:00
 ---
 
