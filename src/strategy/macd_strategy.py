@@ -1,7 +1,6 @@
 from talib import MACD
 import src.service.trade_helper as trade_helper
 import src.service.strategy_helper_single_indicator as stragegy_helper_single_indicator
-import numpy as np
 
 
 def execute(dates, price):
