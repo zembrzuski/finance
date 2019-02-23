@@ -1,6 +1,7 @@
 import numpy as np
 from decimal import *
 
+
 def compute_profit(a_trade):
     return {
         'trade_time': a_trade['sell']['date'] - a_trade['buy']['date'],
@@ -9,6 +10,11 @@ def compute_profit(a_trade):
 
 
 def compute_statistics_from_orders(all_orders):
+    # all_orders eh uma lista de order
+    # order eh uma tupla como no exemplo: (datetime, 'COMPRAR', Decimal(34.35))
+    # order eh uma tupla como no exemplo: (datetime, 'NOP', Decimal(3.35))
+    # order eh uma tupla como no exemplo: (datetime, 'VENDER', Decimal(1.2))
+
     statistics = []
 
     for i in range(0, len(all_orders), 2):
@@ -27,14 +33,20 @@ def compute_statistics_from_orders(all_orders):
 
 
 def compoe_lucros(statistics):
+    # statistics eh um dict como no exempo
+    # {
+    #   'numero_dias_ordem': DIFERENCA ENTRE DOIS DATETIMES (nao lembro qual eh o tipo do objeto)
+    #   'percentual_lucro': Decimal(32.5)  --> isso no caso do trade ter dado 32.5% de lucro.
+    # }
+
     lucros = np.array(list(map(lambda x: x['percentual_lucro'], statistics)))
 
-    dinheiro = 100
+    dinheiro = Decimal(100.)
 
     for lucro in lucros:
-        dinheiro = (lucro / 100 * dinheiro) + dinheiro
+        dinheiro = (lucro / Decimal(100.) * dinheiro) + dinheiro
 
-    return dinheiro - 100
+    return dinheiro - Decimal(100.)
 
 
 def resolve_estou_comprado_flag(estou_comprado, operation):
