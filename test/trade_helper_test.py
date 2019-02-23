@@ -26,11 +26,11 @@ class TestUM(unittest.TestCase):
 
         expected = [
             {
-                'numero_dias_ordem': date_order_2-date_order_1,
+                'numero_dias_ordem': 2,
                 'percentual_lucro': 20.
             },
             {
-                'numero_dias_ordem': date_order_4-date_order_3,
+                'numero_dias_ordem': 365,
                 'percentual_lucro': -6.25
             }
         ]

@@ -20,7 +20,7 @@ def compute_statistics_from_orders(all_orders):
         percentual_lucro = ((Decimal(ordem_venda[2]) / Decimal(ordem_compra[2]))-Decimal(1))*Decimal(100)
 
         statistics.append({
-            'numero_dias_ordem': numero_dias_ordem,
+            'numero_dias_ordem': numero_dias_ordem.days,
             'percentual_lucro': percentual_lucro
         })
 
