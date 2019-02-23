@@ -26,7 +26,7 @@ def get_orders(rsi, dates, price):
 
     filtered = list(filter(lambda x: x[1] != 'NOP', all_operations))
 
-    if filtered[-1][1] == 'COMPRAR':
+    if len(filtered) > 0 and filtered[-1][1] == 'COMPRAR':
         filtered.append((dates[-1], 'VENDER', price[-1]))
 
     return filtered

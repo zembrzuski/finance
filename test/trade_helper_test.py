@@ -37,6 +37,14 @@ class TestUM(unittest.TestCase):
 
         self.assertEqual(result, expected)
 
+    def test_compute_statistics_from_empty_orders(self):
+        all_orders = []
+
+        result = trade_helper.compute_statistics_from_orders(all_orders)
+
+        expected = []
+
+        self.assertEqual(result, expected)
 
     def test_compoe_lucros(self):
         input = [
@@ -76,6 +84,18 @@ class TestUM(unittest.TestCase):
         ]
 
         expected = Decimal(230.)
+
+        result = trade_helper.compoe_lucros(input)
+
+        self.assertEqual(
+            expected.quantize(Decimal('.000001'), rounding=ROUND_DOWN),
+            result.quantize(Decimal('.000001'), rounding=ROUND_DOWN)
+        )
+
+    def test_compoe_lucros_empty_statistics(self):
+        input = []
+
+        expected = Decimal(0.)
 
         result = trade_helper.compoe_lucros(input)
 
