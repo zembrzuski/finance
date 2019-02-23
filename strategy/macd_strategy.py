@@ -36,6 +36,4 @@ def execute(dates, price):
     macd, macdsignal, macdhist = MACD(price, fastperiod=12, slowperiod=26, signalperiod=9)
     all_orders = get_orders(macdsignal, dates, price)
     statistics = trade_helper.compute_statistics_from_orders(all_orders)
-    lucro_composto = trade_helper.compoe_lucros(statistics)
-
-    return lucro_composto
+    return trade_helper.compoe_lucros(statistics)

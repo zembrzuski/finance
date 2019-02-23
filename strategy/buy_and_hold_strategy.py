@@ -1,16 +1,16 @@
-import numpy as np
+import service.trade_helper as trade_helper
 
 
-def execute(date, close):
-    trade = {
-        'buy': {
-            'date': date[0],
-            'value': close[0]
-        },
-        'sell': {
-            'date': date[-1],
-            'value': close[-1]
-        }
-    }
+def get_orders(dates, price):
+    all_operations = []
 
-    return np.array([trade])
+    all_operations.append((dates[0], 'COMPRAR', price[0]))
+    all_operations.append((dates[-1], 'VENDER', price[-1]))
+
+    return all_operations
+
+
+def execute(dates, price):
+    all_orders = get_orders(dates, price)
+    statistics = trade_helper.compute_statistics_from_orders(all_orders)
+    return trade_helper.compoe_lucros(statistics)

@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def compute_profit(a_trade):
     return {
         'trade_time': a_trade['sell']['date'] - a_trade['buy']['date'],
