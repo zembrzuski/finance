@@ -33,22 +33,22 @@ class TestUM(unittest.TestCase):
 
     def test_estou_comprado_logic__should_sell(self):
         # given
-        indicator_go_up = [False, False, True, True, False]
+        indicator_go_down = [True, True, False, False, True]
         i = 0
 
         # when
-        result = strategy_helper_single_indicator.have_bought_logic(indicator_go_up, i)
+        result = strategy_helper_single_indicator.have_bought_logic(indicator_go_down, i)
 
         # then
         self.assertEqual(result, 'VENDER')
 
     def test_estou_comprado_logic__should_not_sell(self):
         # given
-        indicator_go_up = [False, False, True, True, False]
+        indicator_go_down = [True, True, False, False, True]
         i = 2
 
         # when
-        result = strategy_helper_single_indicator.have_bought_logic(indicator_go_up, i)
+        result = strategy_helper_single_indicator.have_bought_logic(indicator_go_down, i)
 
         # then
         self.assertEqual(result, 'NOP')
@@ -67,7 +67,8 @@ class TestUM(unittest.TestCase):
 
         indicator = {
             'series': [.1, .2, .3, -.5],
-            'go_up': [True, True, True, False]
+            'go_up': [True, True, True, False],
+            'go_down': [False, False, False, True],
         }
 
         expected = {
@@ -94,6 +95,7 @@ class TestUM(unittest.TestCase):
         indicator = {
             'series': [.1, .2, -.1, .3],
             'go_up': [True, True, False, True],
+            'go_down': [False, False, False, False],
         }
 
         i = 2
@@ -124,7 +126,8 @@ class TestUM(unittest.TestCase):
         price = [12.3, 12.5, 10.2, 8.4, 15.4, 18.2, 22.3]
         indicator = {
             'series': [-.5, .5, -.2, -.3, 5.4, 18.2, -.5],
-            'go_up': [False, True, False, False, True, True, False]
+            'go_up': [False, True, False, False, True, True, False],
+            'go_down': [False, False, True, False, False, False, True]
         }
 
         expected = [
@@ -155,7 +158,8 @@ class TestUM(unittest.TestCase):
         price = [12.3, 12.5, 10.2, 8.4, 15.4, 18.2, 22.3]
         indicator = {
             'series': [-.5, .5, -.2, -.3, 5.4, 18.2, .5],
-            'go_up': [False, True, False, False, True, True, True]
+            'go_up': [False, True, False, False, True, True, True],
+            'go_down': [False, False, True, False, False, False, False]
         }
 
         expected = [
