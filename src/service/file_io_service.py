@@ -1,5 +1,5 @@
 import pandas
-import config.basic_config as basic_config
+import src.config.basic_config as basic_config
 
 
 def persist_file(company_code, csv_content):

@@ -1,7 +1,7 @@
-import service.file_io_service as file_io_service
-import service.date_helper as date_helper
+import src.service.file_io_service as file_io_service
+import src.service.date_helper as date_helper
 import matplotlib.pyplot as plt
-import numpy as np
+
 
 def main():
     file_content = file_io_service.load_file('PETR4.SA')

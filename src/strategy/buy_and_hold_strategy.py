@@ -1,4 +1,4 @@
-import service.trade_helper as trade_helper
+import src.service.trade_helper as trade_helper
 
 
 def get_orders(dates, price):

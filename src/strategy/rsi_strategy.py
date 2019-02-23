@@ -1,5 +1,5 @@
 from talib import RSI
-import service.trade_helper as trade_helper
+import src.service.trade_helper as trade_helper
 
 
 def estou_comprado_logic(rsi, i):

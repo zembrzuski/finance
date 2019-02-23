@@ -1,5 +1,5 @@
 import requests
-import service.file_io_service as file_io_service
+import src.service.file_io_service as file_io_service
 
 
 def download_from_yahoo(company_code, cookie):
