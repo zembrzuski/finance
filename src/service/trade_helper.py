@@ -20,33 +20,40 @@ def compute_statistics_from_orders(all_orders):
         ordem_compra = all_orders[i]
         ordem_venda = all_orders[i+1]
 
-        numero_dias_ordem = ordem_venda[0] - ordem_compra[0]
-        percentual_lucro = ((Decimal(ordem_venda[2]) / Decimal(ordem_compra[2]))-Decimal(1))*Decimal(100)
+        numero_dias_ordem = ordem_venda['date'] - ordem_compra['date']
+        percentual_lucro  = ((ordem_venda['price'] / ordem_compra['price']) - Decimal(1)) * Decimal(100)
 
         trades_statistics.append({
             'numero_dias_ordem': numero_dias_ordem.days,
-            'percentual_lucro': percentual_lucro
+            'percentual_lucro': percentual_lucro,
+            'buy_indicator': ordem_compra['indicator'],
+            'sell_indicator': ordem_venda['indicator']
         })
+
+    all_buy_indicators = np.array(list(map(lambda x: x['buy_indicator'], trades_statistics)))
+    all_sell_indicators = np.array(list(map(lambda x: x['sell_indicator'], trades_statistics)))
+    all_periods = np.array(list(map(lambda x: x['numero_dias_ordem'], trades_statistics)))
+    all_profits = np.array(list(map(lambda x: x['percentual_lucro'], trades_statistics)))
 
     return {
         'all_trades': {
-            'compount_profit': None,
-            'number_of_trades': None,
+            'compount_profit': compoe_lucros(trades_statistics),
+            'number_of_trades': len(trades_statistics),
             'buy_indicator': {
-                'mean': None,
-                'sd_dev': None
+                'mean': np.mean(all_buy_indicators),
+                'sd_dev': np.std(all_buy_indicators)
             },
             'sell_indicator': {
-                'mean': None,
-                'sd_dev': None
+                'mean': np.mean(all_sell_indicators),
+                'sd_dev': np.std(all_sell_indicators)
             },
             'period_of_trades': {
-                'mean': None,
-                'sd_dev': None
+                'mean': np.mean(all_periods),
+                'sd_dev': np.std(all_periods)
             },
             'profit': {
-                'mean': None,
-                'sd_dev': None
+                'mean': np.mean(all_profits),
+                'sd_dev': np.std(all_profits)
             }
         }
     }
