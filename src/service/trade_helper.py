@@ -1,6 +1,51 @@
 import numpy as np
 from decimal import *
 
+def decimal_from_float(inpt):
+    return decimal_from_decimal(Decimal(inpt))
+
+def decimal_from_decimal(inpt):
+    return inpt.quantize(Decimal('.000001'), rounding=ROUND_DOWN)
+
+def create_single_trade_statistics(ordem_compra, ordem_venda):
+    numero_dias_ordem = ordem_venda['date'] - ordem_compra['date']
+    percentual_lucro = ((ordem_venda['price'] / ordem_compra['price']) - Decimal(1)) * Decimal(100)
+
+    return {
+        'numero_dias_ordem': numero_dias_ordem.days,
+        'percentual_lucro': percentual_lucro,
+        'buy_indicator': ordem_compra['indicator'],
+        'sell_indicator': ordem_venda['indicator']
+    }
+
+
+def create_multiple_trades_statistics(trade_statistics_list):
+    all_buy_indicators = np.array(list(map(lambda x: x['buy_indicator'], trade_statistics_list)))
+    all_sell_indicators = np.array(list(map(lambda x: x['sell_indicator'], trade_statistics_list)))
+    all_periods = np.array(list(map(lambda x: x['numero_dias_ordem'], trade_statistics_list)))
+    all_profits = np.array(list(map(lambda x: x['percentual_lucro'], trade_statistics_list)))
+
+    return {
+        'compount_profit': decimal_from_decimal(compoe_lucros(trade_statistics_list)),
+        'number_of_trades': len(trade_statistics_list),
+        'buy_indicator': {
+            'mean': np.mean(all_buy_indicators),
+            'sd_dev': np.std(all_buy_indicators)
+        },
+        'sell_indicator': {
+            'mean': np.mean(all_sell_indicators),
+            'sd_dev': np.std(all_sell_indicators)
+        },
+        'period_of_trades': {
+            'mean': np.mean(all_periods),
+            'sd_dev': np.std(all_periods)
+        },
+        'profit': {
+            'mean': decimal_from_decimal(np.mean(all_profits)),
+            'sd_dev': decimal_from_decimal(np.std(all_profits))
+        }
+    }
+
 
 def compute_statistics_from_orders(all_orders):
     """
@@ -15,47 +60,22 @@ def compute_statistics_from_orders(all_orders):
     """
 
     trades_statistics = []
+    success_trades_statistics = []
+    failed_trades_statistics = []
 
     for i in range(0, len(all_orders), 2):
-        ordem_compra = all_orders[i]
-        ordem_venda = all_orders[i+1]
+        current_trade_statistics = create_single_trade_statistics(all_orders[i], all_orders[i+1])
+        trades_statistics.append(current_trade_statistics)
 
-        numero_dias_ordem = ordem_venda['date'] - ordem_compra['date']
-        percentual_lucro  = ((ordem_venda['price'] / ordem_compra['price']) - Decimal(1)) * Decimal(100)
+        if current_trade_statistics['percentual_lucro'] > 0:
+            success_trades_statistics.append(current_trade_statistics)
+        else:
+            failed_trades_statistics.append(current_trade_statistics)
 
-        trades_statistics.append({
-            'numero_dias_ordem': numero_dias_ordem.days,
-            'percentual_lucro': percentual_lucro,
-            'buy_indicator': ordem_compra['indicator'],
-            'sell_indicator': ordem_venda['indicator']
-        })
-
-    all_buy_indicators = np.array(list(map(lambda x: x['buy_indicator'], trades_statistics)))
-    all_sell_indicators = np.array(list(map(lambda x: x['sell_indicator'], trades_statistics)))
-    all_periods = np.array(list(map(lambda x: x['numero_dias_ordem'], trades_statistics)))
-    all_profits = np.array(list(map(lambda x: x['percentual_lucro'], trades_statistics)))
 
     return {
-        'all_trades': {
-            'compount_profit': compoe_lucros(trades_statistics),
-            'number_of_trades': len(trades_statistics),
-            'buy_indicator': {
-                'mean': np.mean(all_buy_indicators),
-                'sd_dev': np.std(all_buy_indicators)
-            },
-            'sell_indicator': {
-                'mean': np.mean(all_sell_indicators),
-                'sd_dev': np.std(all_sell_indicators)
-            },
-            'period_of_trades': {
-                'mean': np.mean(all_periods),
-                'sd_dev': np.std(all_periods)
-            },
-            'profit': {
-                'mean': np.mean(all_profits),
-                'sd_dev': np.std(all_profits)
-            }
-        }
+        'all_trades': create_multiple_trades_statistics(trades_statistics),
+        'success_trades': create_multiple_trades_statistics(success_trades_statistics)
     }
 
 

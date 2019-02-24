@@ -1,7 +1,8 @@
 import unittest
 import src.service.trade_helper as trade_helper
-from decimal import *
 import datetime
+from src.service.trade_helper import decimal_from_float
+from decimal import *
 
 
 class TestUM(unittest.TestCase):
@@ -39,7 +40,7 @@ class TestUM(unittest.TestCase):
 
         expected = {
             'all_trades': {
-                'compount_profit': 48.812103009,
+                'compount_profit': decimal_from_float(48.812103009),
                 'number_of_trades': 5,
                 'buy_indicator': {
                     'mean': .5,
@@ -54,30 +55,30 @@ class TestUM(unittest.TestCase):
                     'sd_dev': 0.8944271909999159
                 },
                 'profit': {
-                    'mean': 10.615757415600001,
-                    'sd_dev': 21.892451772996072
+                    'mean': decimal_from_float(10.615757415600001),
+                    'sd_dev': decimal_from_float(21.892451772996072)
                 }
             },
-            # 'success_trades': {
-            #     'compount_profit': None,
-            #     'number_of_trades': None,
-            #     'buy_indicator': {
-            #         'mean': None,
-            #         'sd_dev': None
-            #     },
-            #     'sell_indicator': {
-            #         'mean': None,
-            #         'sd_dev': None
-            #     },
-            #     'period_of_trades': {
-            #         'mean': None,
-            #         'sd_dev': None
-            #     },
-            #     'profit': {
-            #         'mean': None,
-            #         'sd_dev': None
-            #     }
-            # },
+            'success_trades': {
+                'compount_profit': decimal_from_float(106.739259968),
+                'number_of_trades': 3,
+                'buy_indicator': {
+                    'mean': .5,
+                    'sd_dev': 0.1632993161855452
+                },
+                'sell_indicator': {
+                    'mean': 0.46666666666666673,
+                    'sd_dev': 0.3299831645537222
+                },
+                'period_of_trades': {
+                    'mean': 2.3333333333333335,
+                    'sd_dev': 0.9428090415820634
+                },
+                'profit': {
+                    'mean': decimal_from_float(27.546911808999997),
+                    'sd_dev': decimal_from_float(6.270754594846057)
+                }
+            },
             # 'failed_trades': {
             #     'compount_profit': None,
             #     'number_of_trades': None,
@@ -104,7 +105,7 @@ class TestUM(unittest.TestCase):
         result = trade_helper.compute_statistics_from_orders(all_orders)
 
         # then
-        self.assertTrue(True)
+        self.assertEqual(result, expected)
 
 
 if __name__ == '__main__':
