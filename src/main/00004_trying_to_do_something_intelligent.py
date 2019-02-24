@@ -19,6 +19,7 @@ def main():
     dates = np.array(list(map(lambda x: date_helper.parse_date_to_datetime(x), file_content['Date'])))
 
     # dates, prices = period_sampler_service.do_single_sampling(dates, prices)
+    dates, prices = period_sampler_service.sample_a_random_year(dates, prices)
 
     all_stats = [
         buy_and_hold_strategy.execute(dates, prices),

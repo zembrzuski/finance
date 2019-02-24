@@ -2,6 +2,18 @@
 HISTORY
 -------
 
+2019-02-24 15:34
+---
+
+- fiz o passo dito no post anterior, em 2019-02-24 12:00. Agora, estou sumarizando
+  super bem as estatisticas.
+- proximo passo: gerar amostras temporais completamente ao acaso. gerar amostras temporais
+  de periodos de 1 ano. gerar amostras temporais de periodos de 6
+  meses. gerar amostras temporais de periodos de 2 anos. Com tudo isso, verificar
+  se existe alguma estrategia que se destaque e que seja minimamente confiável. fazer isso
+  com outros ativos tb. 
+
+
 2019-02-24 12:00
 ---
 
