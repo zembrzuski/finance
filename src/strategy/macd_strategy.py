@@ -15,4 +15,4 @@ def execute(dates, price):
     all_orders = stragegy_helper_single_indicator.get_orders(dates, price, indicator)
     statistics = trade_helper.compute_statistics_from_orders(all_orders)
 
-    return trade_helper.compoe_lucros(statistics)
+    return statistics['all_trades']['compount_profit'].real
