@@ -1,11 +1,24 @@
 import src.service.trade_helper as trade_helper
+from decimal import *
+import numpy as np
 
 
 def get_orders(dates, price):
     all_operations = []
 
-    all_operations.append((dates[0], 'COMPRAR', price[0]))
-    all_operations.append((dates[-1], 'VENDER', price[-1]))
+    all_operations.append({
+        'date': dates[0],
+        'operation': 'COMPRAR',
+        'price': Decimal(price[0]),
+        'indicator': np.nan
+    })
+
+    all_operations.append({
+        'date': dates[-1],
+        'operation': 'VENDER',
+        'price': Decimal(price[-1]),
+        'indicator': np.nan
+    })
 
     return all_operations
 
@@ -13,4 +26,6 @@ def get_orders(dates, price):
 def execute(dates, price):
     all_orders = get_orders(dates, price)
     statistics = trade_helper.compute_statistics_from_orders(all_orders)
-    return trade_helper.compoe_lucros(statistics)
+
+    return statistics['all_trades']['compount_profit'].real
+

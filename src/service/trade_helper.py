@@ -41,8 +41,8 @@ def create_multiple_trades_statistics(trade_statistics_list):
             'sd_dev': np.std(all_periods)
         },
         'profit': {
-            'mean': decimal_from_decimal(np.mean(all_profits)),
-            'sd_dev': decimal_from_decimal(np.std(all_profits))
+            'mean': decimal_from_decimal(np.mean(all_profits)) if len(all_profits) > 0 else Decimal(0),
+            'sd_dev': decimal_from_decimal(np.std(all_profits)) if len(all_profits) > 0 else Decimal(0)
         }
     }
 
