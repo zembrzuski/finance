@@ -20,12 +20,12 @@ def main():
 
     # buy_and_hold = str(buy_and_hold_strategy.execute(dates, prices))
     macd = str(macd_strategy.execute(dates, prices))
-    # rsi = str(rsi_strategy.execute(dates, prices))
+    rsi = str(rsi_strategy.execute(dates, prices))
     # rsi_and_macd = str(rsi_and_macd_strategy.execute(dates, prices))
 
     # print('lucro com buy and hold: ' + buy_and_hold)
     print('lucro com macd: ' + macd)
-    # print('lucro com rsi: ' + rsi)
+    print('lucro com rsi: ' + rsi)
     # print('lucro com rsi e macd: ' + rsi_and_macd)
 
 
