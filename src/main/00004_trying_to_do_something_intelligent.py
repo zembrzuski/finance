@@ -7,6 +7,7 @@ import src.strategy.macd_strategy as macd_strategy
 import src.strategy.rsi_and_macd_strategy as rsi_and_macd_strategy
 import src.strategy.rsi_strategy as rsi_strategy
 import src.service.period_sampler_service as period_sampler_service
+from pprint import pformat
 
 
 def main():
@@ -24,10 +25,10 @@ def main():
     rsi_and_macd = str(rsi_and_macd_strategy.execute(dates, prices))
 
     print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
-    print('lucro com buy and hold: ' + buy_and_hold)
-    print('lucro com macd: ' + macd)
-    print('lucro com rsi: ' + rsi)
-    print('lucro com rsi e macd: ' + rsi_and_macd)
+    print('buy and hold: ' + pformat(buy_and_hold))
+    print('macd: ' + pformat(macd))
+    print('rsi: ' + pformat(rsi))
+    print('rsi e macd: ' + pformat(rsi_and_macd))
 
 
 if __name__ == '__main__':

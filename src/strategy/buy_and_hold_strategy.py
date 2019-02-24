@@ -27,5 +27,5 @@ def execute(dates, price):
     all_orders = get_orders(dates, price)
     statistics = trade_helper.compute_statistics_from_orders(all_orders)
 
-    return statistics['all_trades']['compount_profit'].real
+    return statistics
 

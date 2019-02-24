@@ -2,6 +2,17 @@
 HISTORY
 -------
 
+2019-02-24 12:00
+---
+
+- para uma determinada estratégia, já consegui computar as estatísticas postadas
+em 2019-02-23 11:00.
+
+- próximo passo: organizar os dados para exibir direito essas estatísticas.
+- passo seguinte: gerar estatísticas para casos aleatórios (períodos de tempo
+aleatórios). E tb para períodos não tão aleatorios (tirar o caso de subidas fantasticas
+e quedas fantasticas) 
+
 2019-02-23 11:00
 ---
 
