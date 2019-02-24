@@ -8,7 +8,7 @@ import src.strategy.rsi_and_macd_strategy as rsi_and_macd_strategy
 import src.strategy.rsi_strategy as rsi_strategy
 import src.service.period_sampler_service as period_sampler_service
 from pprint import pformat
-import pandas
+import pandas as pd
 
 
 def main():
@@ -34,16 +34,19 @@ def main():
     number_of_trades = np.array(list(map(lambda x: x['all_trades']['number_of_trades'], all_stats)))
     profit_mean = np.array(list(map(lambda x: float(str(x['all_trades']['profit']['mean'])), all_stats)))
     accuracies = np.array(list(map(lambda x: x['accuracy'], all_stats)))
+    trade_period_mean = np.array(list(map(lambda x: x['all_trades']['period_of_trades']['mean'], all_stats)))
 
-    panda = pandas.DataFrame({
+    df = pd.DataFrame({
         'name': names,
         'compound-profit': compound_profit,
         'number-of-trades': number_of_trades,
         'profit_mean': profit_mean,
-        'accuracy': accuracies
+        'accuracy': accuracies,
+        'period_mean': trade_period_mean
     })
 
-    print(panda)
+    with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+        print(df)
 
     # print(names)
     # print(compound_profit)
