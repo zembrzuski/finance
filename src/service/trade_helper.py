@@ -75,7 +75,8 @@ def compute_statistics_from_orders(all_orders):
 
     return {
         'all_trades': create_multiple_trades_statistics(trades_statistics),
-        'success_trades': create_multiple_trades_statistics(success_trades_statistics)
+        'success_trades': create_multiple_trades_statistics(success_trades_statistics),
+        'failed_trades': create_multiple_trades_statistics(failed_trades_statistics)
     }
 
 

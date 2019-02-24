@@ -79,26 +79,26 @@ class TestUM(unittest.TestCase):
                     'sd_dev': decimal_from_float(6.270754594846057)
                 }
             },
-            # 'failed_trades': {
-            #     'compount_profit': None,
-            #     'number_of_trades': None,
-            #     'buy_indicator': {
-            #         'mean': None,
-            #         'sd_dev': None
-            #     },
-            #     'sell_indicator': {
-            #         'mean': None,
-            #         'sd_dev': None
-            #     },
-            #     'period_of_trades': {
-            #         'mean': None,
-            #         'sd_dev': None
-            #     },
-            #     'profit': {
-            #         'mean': None,
-            #         'sd_dev': None
-            #     }
-            # }
+            'failed_trades': {
+                'compount_profit': decimal_from_float(-28.019427451),
+                'number_of_trades': 2,
+                'buy_indicator': {
+                    'mean': 0.5,
+                    'sd_dev': 0.30000000000000004
+                },
+                'sell_indicator': {
+                    'mean': 0.15000000000000002,
+                    'sd_dev': 0.05
+                },
+                'period_of_trades': {
+                    'mean': 1.5,
+                    'sd_dev': .5
+                },
+                'profit': {
+                    'mean': decimal_from_float(-14.780974178),
+                    'sd_dev': decimal_from_float(8.014056877999998)
+                }
+            }
         }
 
         # when
