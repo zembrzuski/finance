@@ -72,11 +72,18 @@ def compute_statistics_from_orders(all_orders):
         else:
             failed_trades_statistics.append(current_trade_statistics)
 
+    all_trades = create_multiple_trades_statistics(trades_statistics)
+    success_trades = create_multiple_trades_statistics(success_trades_statistics)
+    failed_trades = create_multiple_trades_statistics(failed_trades_statistics)
+    accuracy = success_trades['number_of_trades'] / failed_trades['number_of_trades'] \
+        if failed_trades['number_of_trades'] > 0 \
+        else 100
 
     return {
-        'all_trades': create_multiple_trades_statistics(trades_statistics),
-        'success_trades': create_multiple_trades_statistics(success_trades_statistics),
-        'failed_trades': create_multiple_trades_statistics(failed_trades_statistics)
+        'all_trades': all_trades,
+        'success_trades': success_trades,
+        'failed_trades': failed_trades,
+        'accuracy': accuracy
     }
 
 

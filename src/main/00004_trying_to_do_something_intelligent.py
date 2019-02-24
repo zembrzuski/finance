@@ -8,6 +8,7 @@ import src.strategy.rsi_and_macd_strategy as rsi_and_macd_strategy
 import src.strategy.rsi_strategy as rsi_strategy
 import src.service.period_sampler_service as period_sampler_service
 from pprint import pformat
+import pandas
 
 
 def main():
@@ -19,16 +20,38 @@ def main():
 
     # dates, prices = period_sampler_service.do_single_sampling(dates, prices)
 
-    buy_and_hold = str(buy_and_hold_strategy.execute(dates, prices))
-    macd = str(macd_strategy.execute(dates, prices))
-    rsi = str(rsi_strategy.execute(dates, prices))
-    rsi_and_macd = str(rsi_and_macd_strategy.execute(dates, prices))
+    all_stats = [
+        buy_and_hold_strategy.execute(dates, prices),
+        macd_strategy.execute(dates, prices),
+        rsi_strategy.execute(dates, prices),
+        rsi_and_macd_strategy.execute(dates, prices)
+    ]
 
     print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
-    print('buy and hold: ' + pformat(buy_and_hold))
-    print('macd: ' + pformat(macd))
-    print('rsi: ' + pformat(rsi))
-    print('rsi e macd: ' + pformat(rsi_and_macd))
+    # print(list(map(lambda x: x['name'] + ' ' + str(x['all_trades']['compount_profit']), all_stats)))
+    names = np.array(list(map(lambda x: x['name'], all_stats)))
+    compound_profit = np.array(list(map(lambda x: float(str(x['all_trades']['compount_profit'])), all_stats)))
+    number_of_trades = np.array(list(map(lambda x: x['all_trades']['number_of_trades'], all_stats)))
+    profit_mean = np.array(list(map(lambda x: float(str(x['all_trades']['profit']['mean'])), all_stats)))
+    accuracies = np.array(list(map(lambda x: x['accuracy'], all_stats)))
+
+    panda = pandas.DataFrame({
+        'name': names,
+        'compound-profit': compound_profit,
+        'number-of-trades': number_of_trades,
+        'profit_mean': profit_mean,
+        'accuracy': accuracies
+    })
+
+    print(panda)
+
+    # print(names)
+    # print(compound_profit)
+    # print(number_of_trades)
+    # print(profit_mean)
+    # print(accuracies)
+
+
 
 
 if __name__ == '__main__':

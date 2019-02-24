@@ -39,6 +39,7 @@ class TestUM(unittest.TestCase):
         ]
 
         expected = {
+            'accuracy': 1.5,
             'all_trades': {
                 'compount_profit': decimal_from_float(48.812103009),
                 'number_of_trades': 5,
