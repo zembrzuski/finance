@@ -7,7 +7,6 @@ import src.strategy.macd_strategy as macd_strategy
 import src.strategy.rsi_and_macd_strategy as rsi_and_macd_strategy
 import src.strategy.rsi_strategy as rsi_strategy
 import src.service.period_sampler_service as period_sampler_service
-from pprint import pformat
 import pandas as pd
 
 
