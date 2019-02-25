@@ -29,7 +29,6 @@ def main():
     ]
 
     print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
-    # print(list(map(lambda x: x['name'] + ' ' + str(x['all_trades']['compount_profit']), all_stats)))
     names = np.array(list(map(lambda x: x['name'], all_stats)))
     compound_profit = np.array(list(map(lambda x: float(str(x['all_trades']['compount_profit'])), all_stats)))
     number_of_trades = np.array(list(map(lambda x: x['all_trades']['number_of_trades'], all_stats)))
@@ -48,14 +47,6 @@ def main():
 
     with pd.option_context('display.max_rows', None, 'display.max_columns', None):
         print(df)
-
-    # print(names)
-    # print(compound_profit)
-    # print(number_of_trades)
-    # print(profit_mean)
-    # print(accuracies)
-
-
 
 
 if __name__ == '__main__':
