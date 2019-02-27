@@ -10,14 +10,7 @@ import src.service.period_sampler_service as period_sampler_service
 import pandas as pd
 
 
-def main():
-    file_content = file_io_service.load_file('PETR4.SA')
-    file_content = file_content.dropna()
-
-    prices = file_content['Adj Close'].values
-    dates = np.array(list(map(lambda x: date_helper.parse_date_to_datetime(x), file_content['Date'])))
-
-    # dates, prices = period_sampler_service.do_single_sampling(dates, prices)
+def iterate(dates, prices, iterations):
     dates, prices = period_sampler_service.sample_a_random_year(dates, prices)
 
     all_stats = [
@@ -27,7 +20,6 @@ def main():
         rsi_and_macd_strategy.execute(dates, prices)
     ]
 
-    print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
     names = np.array(list(map(lambda x: x['name'], all_stats)))
     compound_profit = np.array(list(map(lambda x: float(str(x['all_trades']['compount_profit'])), all_stats)))
     number_of_trades = np.array(list(map(lambda x: x['all_trades']['number_of_trades'], all_stats)))
@@ -46,6 +38,20 @@ def main():
 
     with pd.option_context('display.max_rows', None, 'display.max_columns', None):
         print(df)
+
+    print('fim')
+
+
+def main():
+    np.random.seed(0)
+    file_content = file_io_service.load_file('PETR4.SA')
+    file_content = file_content.dropna()
+
+    prices = file_content['Adj Close'].values
+    dates = np.array(list(map(lambda x: date_helper.parse_date_to_datetime(x), file_content['Date'])))
+
+    # dates, prices = period_sampler_service.do_single_sampling(dates, prices)
+    iterate(dates, prices, 2)
 
 
 if __name__ == '__main__':
