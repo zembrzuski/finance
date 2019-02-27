@@ -7,7 +7,6 @@ import src.strategy.macd_strategy as macd_strategy
 import src.strategy.rsi_and_macd_strategy as rsi_and_macd_strategy
 import src.strategy.rsi_strategy as rsi_strategy
 import src.service.period_sampler_service as period_sampler_service
-import pandas as pd
 
 
 def extract_simple_information(statistics, strategy_key, all_iterations_statistics):
@@ -43,45 +42,19 @@ def iterate(dates_inp, prices_inp, iterations):
     for i in range(0, iterations):
         dates, prices = period_sampler_service.sample_a_random_year(dates_inp, prices_inp)
 
-        buy_and_hold_statistics = buy_and_hold_strategy.execute(dates, prices)
-        macd_statistics = macd_strategy.execute(dates, prices)
-        rsi_statistics = rsi_strategy.execute(dates, prices)
-        rsi_and_macd_statistics = rsi_and_macd_strategy.execute(dates, prices)
+        all_iterations_statistics['buy-and-hold'] = extract_simple_information(
+            buy_and_hold_strategy.execute(dates, prices), 'buy-and-hold', all_iterations_statistics)
 
-        all_stats = [buy_and_hold_statistics, macd_statistics, rsi_statistics, rsi_and_macd_statistics]
+        all_iterations_statistics['macd'] = extract_simple_information(
+            macd_strategy.execute(dates, prices), 'macd', all_iterations_statistics)
 
-        names = np.array(list(map(lambda x: x['name'], all_stats)))
-        compound_profit = np.array(list(map(lambda x: float(str(x['all_trades']['compount_profit'])), all_stats)))
-        number_of_trades = np.array(list(map(lambda x: x['all_trades']['number_of_trades'], all_stats)))
-        profit_mean = np.array(list(map(lambda x: float(str(x['all_trades']['profit']['mean'])), all_stats)))
-        accuracies = np.array(list(map(lambda x: x['accuracy'], all_stats)))
-        trade_period_mean = np.array(list(map(lambda x: x['all_trades']['period_of_trades']['mean'], all_stats)))
+        all_iterations_statistics['rsi'] = extract_simple_information(
+            rsi_strategy.execute(dates, prices), 'rsi', all_iterations_statistics)
 
-        df = pd.DataFrame({
-            'name': names,
-            'compound-profit': compound_profit,
-            'number-of-trades': number_of_trades,
-            'profit_mean': profit_mean,
-            'accuracy': accuracies,
-            'period_mean': trade_period_mean
-        })
+        all_iterations_statistics['rsi-and-macd'] = extract_simple_information(
+            rsi_and_macd_strategy.execute(dates, prices), 'rsi-and-macd', all_iterations_statistics)
 
-        with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-            print(df)
-
-        ############################################
-
-        new_buy_and_hold = extract_simple_information(buy_and_hold_statistics, 'buy-and-hold', all_iterations_statistics)
-        new_macd = extract_simple_information(macd_statistics, 'macd', all_iterations_statistics)
-        new_rsi = extract_simple_information(rsi_statistics, 'rsi', all_iterations_statistics)
-        new_macd_rsi = extract_simple_information(rsi_and_macd_statistics, 'rsi-and-macd', all_iterations_statistics)
-
-        all_iterations_statistics['buy-and-hold'] = new_buy_and_hold
-        all_iterations_statistics['macd'] = new_macd
-        all_iterations_statistics['rsi'] = new_rsi
-        all_iterations_statistics['rsi-and-macd'] = new_macd_rsi
-
-    print('fim')
+    return all_iterations_statistics
 
 
 def main():
