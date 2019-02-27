@@ -7,7 +7,8 @@ import src.strategy.macd_strategy as macd_strategy
 import src.strategy.rsi_and_macd_strategy as rsi_and_macd_strategy
 import src.strategy.rsi_strategy as rsi_strategy
 import src.service.period_sampler_service as period_sampler_service
-
+import src.service.statistics_from_statistics as statistics_from_statistics
+from pprint import pformat
 
 def extract_simple_information(statistics, strategy_key, all_iterations_statistics):
     strategy_statistics = all_iterations_statistics.get(strategy_key)
@@ -58,7 +59,7 @@ def iterate(dates_inp, prices_inp, iterations):
 
 
 def main():
-    np.random.seed(0)
+    # np.random.seed(0)
     file_content = file_io_service.load_file('PETR4.SA')
     file_content = file_content.dropna()
 
@@ -66,7 +67,11 @@ def main():
     dates = np.array(list(map(lambda x: date_helper.parse_date_to_datetime(x), file_content['Date'])))
 
     # dates, prices = period_sampler_service.do_single_sampling(dates, prices)
-    iterate(dates, prices, 2)
+    all_iterations_statistics = iterate(dates, prices, 1000)
+
+    summary = statistics_from_statistics.compute_statistics_from_statistics_for_all_strategies(all_iterations_statistics)
+
+    print(pformat(summary))
 
 
 if __name__ == '__main__':
