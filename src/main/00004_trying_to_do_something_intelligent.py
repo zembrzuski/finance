@@ -10,34 +10,35 @@ import src.service.period_sampler_service as period_sampler_service
 import pandas as pd
 
 
-def iterate(dates, prices, iterations):
-    dates, prices = period_sampler_service.sample_a_random_year(dates, prices)
+def iterate(dates_inp, prices_inp, iterations):
+    for i in range(0, iterations):
+        dates, prices = period_sampler_service.sample_a_random_year(dates_inp, prices_inp)
 
-    all_stats = [
-        buy_and_hold_strategy.execute(dates, prices),
-        macd_strategy.execute(dates, prices),
-        rsi_strategy.execute(dates, prices),
-        rsi_and_macd_strategy.execute(dates, prices)
-    ]
+        all_stats = [
+            buy_and_hold_strategy.execute(dates, prices),
+            macd_strategy.execute(dates, prices),
+            rsi_strategy.execute(dates, prices),
+            rsi_and_macd_strategy.execute(dates, prices)
+        ]
 
-    names = np.array(list(map(lambda x: x['name'], all_stats)))
-    compound_profit = np.array(list(map(lambda x: float(str(x['all_trades']['compount_profit'])), all_stats)))
-    number_of_trades = np.array(list(map(lambda x: x['all_trades']['number_of_trades'], all_stats)))
-    profit_mean = np.array(list(map(lambda x: float(str(x['all_trades']['profit']['mean'])), all_stats)))
-    accuracies = np.array(list(map(lambda x: x['accuracy'], all_stats)))
-    trade_period_mean = np.array(list(map(lambda x: x['all_trades']['period_of_trades']['mean'], all_stats)))
+        names = np.array(list(map(lambda x: x['name'], all_stats)))
+        compound_profit = np.array(list(map(lambda x: float(str(x['all_trades']['compount_profit'])), all_stats)))
+        number_of_trades = np.array(list(map(lambda x: x['all_trades']['number_of_trades'], all_stats)))
+        profit_mean = np.array(list(map(lambda x: float(str(x['all_trades']['profit']['mean'])), all_stats)))
+        accuracies = np.array(list(map(lambda x: x['accuracy'], all_stats)))
+        trade_period_mean = np.array(list(map(lambda x: x['all_trades']['period_of_trades']['mean'], all_stats)))
 
-    df = pd.DataFrame({
-        'name': names,
-        'compound-profit': compound_profit,
-        'number-of-trades': number_of_trades,
-        'profit_mean': profit_mean,
-        'accuracy': accuracies,
-        'period_mean': trade_period_mean
-    })
+        df = pd.DataFrame({
+            'name': names,
+            'compound-profit': compound_profit,
+            'number-of-trades': number_of_trades,
+            'profit_mean': profit_mean,
+            'accuracy': accuracies,
+            'period_mean': trade_period_mean
+        })
 
-    with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-        print(df)
+        with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+            print(df)
 
     print('fim')
 
