@@ -72,6 +72,7 @@ def main():
     summary = statistics_from_statistics.compute_statistics_from_statistics_for_all_strategies(all_iterations_statistics)
 
     print(pformat(summary))
+    print('oi')
 
 
 if __name__ == '__main__':

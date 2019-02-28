@@ -10,7 +10,7 @@ def do_single_sampling(dates, prices):
 
 def sample_a_random_year(dates, prices):
     low = int(np.random.uniform(0, len(dates)))
-    high = low + 365
+    high = low + 243
 
     if high > len(dates):
         high = len(dates)
