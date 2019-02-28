@@ -41,7 +41,8 @@ def iterate(dates_inp, prices_inp, iterations):
     }
 
     for i in range(0, iterations):
-        dates, prices = period_sampler_service.sample_a_random_year(dates_inp, prices_inp)
+        # dates, prices = period_sampler_service.sample_a_random_year(dates_inp, prices_inp)
+        dates, prices = period_sampler_service.do_single_sampling(dates_inp, prices_inp)
 
         all_iterations_statistics['buy-and-hold'] = extract_simple_information(
             buy_and_hold_strategy.execute(dates, prices), 'buy-and-hold', all_iterations_statistics)

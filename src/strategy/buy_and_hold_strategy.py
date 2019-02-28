@@ -6,6 +6,9 @@ import copy
 def get_orders(dates, price):
     all_operations = []
 
+    if len(dates) == 0:
+        print('entrou aqui')
+
     all_operations.append({
         'date': dates[0],
         'operation': 'COMPRAR',
