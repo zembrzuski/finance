@@ -12,3 +12,4 @@ def persist_file(company_code, csv_content):
 
 def load_file(company_code):
     return pandas.read_csv('{}{}.csv'.format(basic_config.data_local_storage_filepath, company_code).format(company_code))
+
