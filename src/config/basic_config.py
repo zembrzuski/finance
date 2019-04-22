@@ -1,10 +1,17 @@
 # casa
-# data_local_storage_filepath = '/home/zembrzuski/labs/the-trading-project/data/'
+data_local_storage_filepath = '/home/zembrzuski/labs/the-trading-project/data/'
 
 # firma
-data_local_storage_filepath = '/home/zem/labs/trading-project/data/'
+# data_local_storage_filepath = '/home/zem/labs/trading-project/data/'
 
-ativos = ["ABEV3.SA",
+chunk_size = 10
+
+# company_code, from_epoch, to_epoch, crumb
+yahoo_historical_url = \
+    'https://query1.finance.yahoo.com/v7/finance/download/{}?period1={}&period2={}&interval=1d&events=history&crumb={}'
+
+
+companies = ["ABEV3.SA",
           "B3SA3.SA",
           "BBAS3.SA",
           "BBDC3.SA",
