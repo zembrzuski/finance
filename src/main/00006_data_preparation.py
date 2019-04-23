@@ -4,13 +4,12 @@ import src.service.file_io_service as file_io_service
 
 
 def get_labeled_quotes(company_code):
-    dates, prices = file_io_service.get_historical_data(company_code)
+    dates, prices, volume = file_io_service.get_historical_data(company_code)
 
-    my_dataframe = np.transpose(np.concatenate(([dates], [prices]), axis=0))
-    labeled_quotes = np.hstack((my_dataframe, np.transpose([np.append(my_dataframe[:, 1][1:], 0)])))
-    labeled_quotes = labeled_quotes[0:-1, :]
+    my_dataframe = np.transpose(np.concatenate(([volume], [prices]), axis=0))
+    labels = np.transpose([np.append(my_dataframe[:, 1][1:], 0)])
 
-    return labeled_quotes
+    return my_dataframe, labels
 
 
 def create_lots_of_rsis(prices):
@@ -72,18 +71,20 @@ def create_bollinger_bands(prices):
 
 
 def main():
+    print('init data preparation')
     company_code = 'PETR4.SA'
-    labeled_quotes = get_labeled_quotes(company_code)
+    my_dataframe, labels = get_labeled_quotes(company_code)
 
-    prices = np.array([float(x) for x in labeled_quotes[:, 1]])
+    prices = np.array([float(x) for x in my_dataframe[:, 1]])
 
-    tudao = np.hstack((
-        labeled_quotes,
+    my_input = np.hstack((
+        my_dataframe,
         create_lots_of_rsis(prices),
         create_lots_of_macds(prices),
         create_bollinger_bands(prices)
     ))
 
+    print('finish data preparation')
     print('finished')
 
 

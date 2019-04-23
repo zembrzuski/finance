@@ -36,5 +36,6 @@ def get_historical_data(company_code):
 
     prices = historical_data['Adj Close'].values
     dates = np.array(list(map(lambda x: date_helper.parse_date_to_datetime(x), historical_data['Date'])))
+    volume = historical_data['Volume'].values
 
-    return dates, prices
+    return dates, prices, volume
