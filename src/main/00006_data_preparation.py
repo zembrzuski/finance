@@ -20,8 +20,28 @@ def create_lots_of_rsis(prices):
         rsi_i = np.reshape(RSI(prices, timeperiod=i), (len(prices), 1))
         rsis = np.hstack((rsis, rsi_i))
 
-    print('oi')
     return rsis
+
+
+def create_lots_of_macds(prices):
+    macd, macdsignal, macdhist = MACD(prices, fastperiod=12, slowperiod=26, signalperiod=9)
+
+    all_macds = np.reshape(macdsignal, (len(prices), 1))
+
+    for fast_period in range(9, 16):
+        for slow_period in range(20, 31):
+            for signal_period in range(5, 12):
+                macd, macdsignal2, macdhist = MACD(
+                    prices,
+                    fastperiod=fast_period,
+                    slowperiod=slow_period,
+                    signalperiod=signal_period
+                )
+
+                current_macd = np.reshape(macdsignal2, (len(prices), 1))
+                all_macds = np.hstack((all_macds, current_macd))
+
+    return all_macds
 
 
 def main():
@@ -29,9 +49,13 @@ def main():
     labeled_quotes = get_labeled_quotes(company_code)
 
     prices = np.array([float(x) for x in labeled_quotes[:, 1]])
-    # rsi = RSI(prices, timeperiod=14)
     # macd, macdsignal, macdhist = MACD(prices, fastperiod=12, slowperiod=26, signalperiod=9)
-    create_lots_of_rsis(prices)
+
+    tudao = np.hstack((
+        labeled_quotes,
+        create_lots_of_rsis(prices),
+        create_lots_of_macds(prices)
+    ))
 
     # proximo passo: colocar na minha matriz uma penca grotesca de indicadores
 
