@@ -47,10 +47,28 @@ def create_lots_of_macds(prices):
 def create_bollinger_bands(prices):
     bollUPPER, bollMIDDLE, bollLOWER = BBANDS(prices, timeperiod=20, nbdevup=2., nbdevdn=2., matype=0)
 
-    upper_bolling_percent = bollUPPER /prices
-    lower_bolling_percent = bollLOWER / prices
+    upper_bolling_percent = np.reshape(bollUPPER /prices, (len(prices), 1))
+    lower_bolling_percent = np.reshape(bollLOWER /prices, (len(prices), 1))
 
-    return 'oi'
+    bollinger_bands = np.hstack((upper_bolling_percent, lower_bolling_percent))
+
+    for time_period in range(10, 31):
+        for up in range(18, 23):
+            for down in range(18, 23):
+                upper, middle, lower = BBANDS(
+                    prices,
+                    timeperiod=time_period,
+                    nbdevup=float(up)/10,
+                    nbdevdn=float(down)/10,
+                    matype=0)
+
+                bollinger_bands = np.hstack((
+                    bollinger_bands,
+                    np.reshape(upper/prices, (len(prices), 1)),
+                    np.reshape(lower/prices, (len(prices), 1))
+                ))
+
+    return bollinger_bands
 
 
 def main():
@@ -62,10 +80,9 @@ def main():
     tudao = np.hstack((
         labeled_quotes,
         create_lots_of_rsis(prices),
-        create_lots_of_macds(prices)
+        create_lots_of_macds(prices),
+        create_bollinger_bands(prices)
     ))
-
-    create_bollinger_bands(prices)
 
     print('finished')
 
