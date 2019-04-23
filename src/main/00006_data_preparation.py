@@ -1,5 +1,5 @@
 import numpy as np
-from talib import RSI, MACD
+from talib import RSI, MACD, BBANDS
 import src.service.file_io_service as file_io_service
 
 
@@ -44,12 +44,20 @@ def create_lots_of_macds(prices):
     return all_macds
 
 
+def create_bollinger_bands(prices):
+    bollUPPER, bollMIDDLE, bollLOWER = BBANDS(prices, timeperiod=20, nbdevup=2., nbdevdn=2., matype=0)
+
+    upper_bolling_percent = bollUPPER /prices
+    lower_bolling_percent = bollLOWER / prices
+
+    return 'oi'
+
+
 def main():
     company_code = 'PETR4.SA'
     labeled_quotes = get_labeled_quotes(company_code)
 
     prices = np.array([float(x) for x in labeled_quotes[:, 1]])
-    # macd, macdsignal, macdhist = MACD(prices, fastperiod=12, slowperiod=26, signalperiod=9)
 
     tudao = np.hstack((
         labeled_quotes,
@@ -57,7 +65,7 @@ def main():
         create_lots_of_macds(prices)
     ))
 
-    # proximo passo: colocar na minha matriz uma penca grotesca de indicadores
+    create_bollinger_bands(prices)
 
     print('finished')
 
