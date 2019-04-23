@@ -9,15 +9,8 @@ def main():
     dates, prices = file_io_service.get_historical_data(company_code)
 
     my_dataframe = np.transpose(np.concatenate(([dates], [prices]), axis=0))
+    labeled_quotes = np.hstack((my_dataframe, np.transpose([np.append(my_dataframe[:, 1][1:], 0)])))
 
-    # just for test
-    my_dataframe = my_dataframe[[0, 1, 2, 3, 4], :]
-
-    tomorrow_prices = np.transpose([np.append(my_dataframe[:, 1][1:], 0)])
-
-    vai = np.hstack((my_dataframe, tomorrow_prices))
-
-    print(vai)
     print('finished')
 
 
