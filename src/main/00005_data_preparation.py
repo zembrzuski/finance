@@ -48,6 +48,11 @@ def main():
     split = extract_period_for_testset(dates, prices, 200)
     rebuilt = rebuild_original_set_with_dev_and_test(split)
 
+    # TODO o que fazer agora??
+    # fazer 2 splits por empresa.
+    # persistir os bagulho splitado
+    # depois, fazer machine learning com o dev+test sets
+    
     print(np.alltrue(dates == rebuilt))
 
 
