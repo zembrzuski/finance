@@ -84,6 +84,8 @@ def main():
         create_bollinger_bands(prices)
     ))
 
+    # https://towardsdatascience.com/building-a-logistic-regression-in-python-step-by-step-becd4d56c9c8
+
     print('finish data preparation')
     print('finished')
 
