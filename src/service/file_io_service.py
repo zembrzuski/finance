@@ -32,6 +32,7 @@ def persist_on_disk_a_company(company):
 
 def get_historical_data(company_code):
     historical_data = load_historical_data(company_code)
+    historical_data = historical_data.dropna()
 
     prices = historical_data['Adj Close'].values
     dates = np.array(list(map(lambda x: date_helper.parse_date_to_datetime(x), historical_data['Date'])))
