@@ -5,7 +5,7 @@ import numpy as np
 from talib import RSI, BBANDS, MACD
 
 def main():
-    file_content = file_io_service.load_file('PETR4.SA')
+    file_content = file_io_service.load_historical_data('PETR4.SA')
     file_content = file_content.dropna()
 
     close = file_content['Adj Close'].values

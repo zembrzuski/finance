@@ -61,7 +61,7 @@ def iterate(dates_inp, prices_inp, iterations):
 
 def main():
     # np.random.seed(0)
-    file_content = file_io_service.load_file('PETR4.SA')
+    file_content = file_io_service.load_historical_data('PETR4.SA')
     file_content = file_content.dropna()
 
     prices = file_content['Adj Close'].values

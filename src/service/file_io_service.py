@@ -1,6 +1,8 @@
 import os
 import pandas
 import src.config.basic_config as basic_config
+import src.service.date_helper as date_helper
+import numpy as np
 
 
 def persist_file(company_code, csv_content):
@@ -11,7 +13,7 @@ def persist_file(company_code, csv_content):
     return True
 
 
-def load_file(company_code):
+def load_historical_data(company_code):
     return pandas.read_csv('{}{}.csv'.format(basic_config.data_local_storage_filepath, company_code).format(company_code))
 
 
@@ -26,3 +28,12 @@ def persist_on_disk_a_company(company):
     f.close()
 
     return company['company_code'], True
+
+
+def get_historical_data(company_code):
+    historical_data = load_historical_data(company_code)
+
+    prices = historical_data['Adj Close'].values
+    dates = np.array(list(map(lambda x: date_helper.parse_date_to_datetime(x), historical_data['Date'])))
+
+    return dates, prices
