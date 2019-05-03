@@ -12,11 +12,14 @@ def get_labeled_quotes(company_code):
 
     historical_data = historical_data.assign(Datee=pd.Series(dates))
 
-    next_day_close = np.array(historical_data['Close'][1:])
+    next_day_close = np.array(historical_data['Adj Close'][1:])
     next_day_close = np.append(next_day_close, -1)
 
     historical_data = historical_data.assign(Next_Day_Close=pd.Series(next_day_close))
     historical_data = historical_data.drop([historical_data.shape[0]-1])
+
+    label = (historical_data['Next_Day_Close'] - historical_data['Adj Close'] > 0).apply(int)
+    historical_data = historical_data.assign(label=pd.Series(label))
 
     return historical_data
 
