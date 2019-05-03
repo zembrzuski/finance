@@ -75,6 +75,9 @@ def main():
     company_code = 'PETR4.SA'
     my_dataframe, labels = get_labeled_quotes(company_code)
 
+    print(my_dataframe.shape)
+    print(list(my_dataframe.columns))
+
     prices = np.array([float(x) for x in my_dataframe[:, 1]])
 
     my_input = np.hstack((

@@ -39,3 +39,11 @@ def get_historical_data(company_code):
     volume = historical_data['Volume'].values
 
     return dates, prices, volume
+
+
+def read_csv(company_code):
+    historical_data = load_historical_data(company_code)
+    historical_data = historical_data.dropna()
+    historical_data = historical_data.reset_index(drop=True)
+
+    return historical_data
