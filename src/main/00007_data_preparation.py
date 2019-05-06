@@ -5,6 +5,9 @@ import src.service.date_helper as date_helper
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+from sklearn import metrics
+from sklearn.model_selection import train_test_split
 
 
 def get_labeled_quotes(company_code):
@@ -32,12 +35,15 @@ def main():
 
     historical_data = get_labeled_quotes(company_code)
 
-    print(historical_data['label'].value_counts())
+    # print(historical_data['label'].value_counts())
+    # sns.countplot(x='label', data=historical_data, palette='hls')
+    # plt.show()
+    # historical_data.groupby('label').mean()
 
-    sns.countplot(x='label', data=historical_data, palette='hls')
-    plt.show()
+    y = historical_data['label']
+    X = historical_data.drop(columns=['label', 'Next_Day_Close'])
 
-    historical_data.groupby('label').mean()
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
 
 
     print('finished')
