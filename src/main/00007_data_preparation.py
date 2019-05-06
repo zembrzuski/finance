@@ -3,6 +3,8 @@ from talib import RSI, MACD, BBANDS
 import src.service.file_io_service as file_io_service
 import src.service.date_helper as date_helper
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 def get_labeled_quotes(company_code):
@@ -29,6 +31,14 @@ def main():
     company_code = 'PETR4.SA'
 
     historical_data = get_labeled_quotes(company_code)
+
+    print(historical_data['label'].value_counts())
+
+    sns.countplot(x='label', data=historical_data, palette='hls')
+    plt.show()
+
+    historical_data.groupby('label').mean()
+
 
     print('finished')
 

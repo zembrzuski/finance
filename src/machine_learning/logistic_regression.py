@@ -11,6 +11,15 @@ sns.set(style='whitegrid', color_codes=True)
 
 # /home/zembrzuski/labs/the-trading-project
 
+
+# https://towardsdatascience.com/building-a-logistic-regression-in-python-step-by-step-becd4d56c9c8
+# https://towardsdatascience.com/building-a-logistic-regression-in-python-step-by-step-becd4d56c9c8
+# https://towardsdatascience.com/building-a-logistic-regression-in-python-step-by-step-becd4d56c9c8
+# https://towardsdatascience.com/building-a-logistic-regression-in-python-step-by-step-becd4d56c9c8
+# https://towardsdatascience.com/building-a-logistic-regression-in-python-step-by-step-becd4d56c9c8
+# https://towardsdatascience.com/building-a-logistic-regression-in-python-step-by-step-becd4d56c9c8
+
+
 data = pd.read_csv('/home/zembrzuski/labs/the-trading-project/banking.csv', header=0)
 data = data.dropna()
 print(data.shape)
