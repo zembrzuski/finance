@@ -2,14 +2,9 @@
 proximos passos:
 ----
 
-- criar amostras do grafico ao acaso.
-- criar trading strategies
-    - randomica
-    - usando macd
-    - usando rsi
-    - tentar combinar indicadores
-    - usar machine learning
-    
+- proximos passos: 
+    - procurar e criar muitos mais indicadores
+    - usar xgboost    
 
 
 
