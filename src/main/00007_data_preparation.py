@@ -66,15 +66,39 @@ def create_lots_of_macds(historical_data):
     return historical_data.join(macds_dataframe)
 
 
+def create_bollinger_bands(historical_data):
+    prices = historical_data['Adj Close'].as_matrix()
+
+    bollinger_bands = dict()
+
+    for time_period in range(10, 31):
+        for up in range(18, 23):
+            for down in range(18, 23):
+                upper, middle, lower = BBANDS(
+                    prices,
+                    timeperiod=time_period,
+                    nbdevup=float(up)/10,
+                    nbdevdn=float(down)/10,
+                    matype=0)
+
+                bollinger_bands['bbands_upper_{}_{}_{}'.format(time_period, up, down)] = upper/prices
+                bollinger_bands['bbands_lower_{}_{}_{}'.format(time_period, up, down)] = lower/prices
+
+    macds_dataframe = pd.DataFrame(bollinger_bands)
+
+    return historical_data.join(macds_dataframe)
+
+
 def main():
     print('init data preparation')
 
-    # company_code = 'BBAS3.SA'
-    company_code = 'PETR4.SA'
+    company_code = 'BBAS3.SA'
+    # company_code = 'PETR4.SA'
 
     historical_data = get_labeled_quotes(company_code)
     historical_data = add_rsi(historical_data)
     historical_data = create_lots_of_macds(historical_data)
+    historical_data = create_bollinger_bands(historical_data)
 
     historical_data = historical_data.dropna()
     historical_data = historical_data.reset_index(drop=True)
