@@ -29,11 +29,26 @@ def get_labeled_quotes(company_code):
     return historical_data
 
 
+def add_rsi(historical_data):
+    prices = historical_data['Adj Close'].as_matrix()
+
+    rsis = dict()
+
+    for i in range(6, 21):
+        rsi_i = RSI(prices, timeperiod=i)
+        rsis['rsi' + str(i)] = rsi_i
+
+    rsis_dataframe = pd.DataFrame(rsis)
+
+    return historical_data.join(rsis_dataframe)
+
+
 def main():
     print('init data preparation')
     company_code = 'PETR4.SA'
 
     historical_data = get_labeled_quotes(company_code)
+    historical_data = add_rsi(historical_data)
 
     # print(historical_data['label'].value_counts())
     # sns.countplot(x='label', data=historical_data, palette='hls')
