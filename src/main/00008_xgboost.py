@@ -19,20 +19,7 @@ def my_split(x, y, test_size):
     return x[0:index], x[index:-1], y[0:index], y[index:-1]
 
 
-def main():
-    # company_code = 'BBAS3.SA'
-    company_code = 'PETR4.SA'
-
-    historical_data = ml_loader.get_historical_data_for_ml(company_code)
-
-    y = historical_data['label']
-    x = historical_data.drop(columns=[
-        'label', 'Next_Day_Close', 'Date', 'Datee', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume'])
-
-    # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0)
-
-    x_train, x_test, y_train, y_test = my_split(x, y, test_size=0.3)
-
+def do_lots_of_tests(x_train, x_test, y_train, y_test):
     results = open('results.txt', 'a')
 
     best_accuracy = -1
@@ -61,7 +48,7 @@ def main():
                         ''
                     ])
 
-                    if (test_accuracy > best_accuracy):
+                    if test_accuracy > best_accuracy:
                         best_accuracy = test_accuracy
 
                     print('train set accuracy: {}'.format(train_accuracy))
@@ -70,6 +57,37 @@ def main():
                     print('-----------------')
 
     results.close()
+
+
+def do_simple_xgboost_regression(x_train, y_train, x_test, y_test):
+    xg_reg = xgb.XGBRegressor(objective='reg:linear', colsample_bytree=0.3, learning_rate=0.1,
+                              max_depth=5, alpha=10, n_estimators=10)
+
+    xg_reg.fit(x_train, y_train)
+
+    train_accuracy = compute_accuracy(xg_reg, x_train, y_train)
+    test_accuracy = compute_accuracy(xg_reg, x_test, y_test)
+
+    print('train set accuracy: {}'.format(train_accuracy))
+    print('test set accuracy: {}'.format(test_accuracy))
+
+
+def main():
+    # company_code = 'BBAS3.SA'
+    company_code = 'PETR4.SA'
+
+    historical_data = ml_loader.get_historical_data_for_ml(company_code)
+
+    y = historical_data['label']
+    x = historical_data.drop(columns=[
+        'label', 'Next_Day_Close', 'Date', 'Datee', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume'])
+
+    # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0)
+    x_train, x_test, y_train, y_test = my_split(x, y, test_size=0.3)
+
+    # do_lots_of_tests(x_train, x_test, y_train, y_test)
+    do_simple_xgboost_regression(x_train, y_train, x_test, y_test)
+
     print('finished')
 
 
