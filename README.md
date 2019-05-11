@@ -31,3 +31,4 @@ https://towardsdatascience.com/trading-strategy-technical-analysis-with-python-t
 como fazer regressao logistica -- e outras coisas -- em python:
 ---
 https://towardsdatascience.com/building-a-logistic-regression-in-python-301d27367c24
+https://www.datacamp.com/community/tutorials/xgboost-in-python

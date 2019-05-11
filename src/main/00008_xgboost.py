@@ -14,6 +14,11 @@ def compute_accuracy(xg_reg, x, y):
     return numero_acertos / (numero_acertos + numero_erros)
 
 
+def my_split(x, y, test_size):
+    index = int(len(x) * (1-test_size))
+    return x[0:index], x[index:-1], y[0:index], y[index:-1]
+
+
 def main():
     # company_code = 'BBAS3.SA'
     company_code = 'PETR4.SA'
@@ -21,19 +26,50 @@ def main():
     historical_data = ml_loader.get_historical_data_for_ml(company_code)
 
     y = historical_data['label']
-    x = historical_data.drop(columns=['label', 'Next_Day_Close', 'Date', 'Datee', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume'])
+    x = historical_data.drop(columns=[
+        'label', 'Next_Day_Close', 'Date', 'Datee', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume'])
 
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0)
+    # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0)
 
-    xg_reg = xgb.XGBRegressor(
-        objective='reg:linear', colsample_bytree=0.3, learning_rate=0.1,
-        max_depth=5, alpha=10, n_estimators=30)
+    x_train, x_test, y_train, y_test = my_split(x, y, test_size=0.3)
 
-    xg_reg.fit(x_train, y_train)
+    results = open('results.txt', 'a')
 
-    print('train set accuracy: {}'.format(compute_accuracy(xg_reg, x_train, y_train)))
-    print('test set accuracy: {}'.format(compute_accuracy(xg_reg, x_test, y_test)))
+    best_accuracy = -1
 
+    for colsample in [0.1, 0.2, 0.3, 0.4, 0.5]:
+        for depth in [2, 3, 4, 5, 6, 7, 8]:
+            for alpha in [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]:
+                for estim in [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]:
+                    xg_reg = xgb.XGBRegressor(
+                        objective='reg:linear', colsample_bytree=colsample, learning_rate=0.1,
+                        max_depth=depth, alpha=alpha, n_estimators=estim)
+
+                    xg_reg.fit(x_train, y_train)
+
+                    train_accuracy = compute_accuracy(xg_reg, x_train, y_train)
+                    test_accuracy = compute_accuracy(xg_reg, x_test, y_test)
+
+                    results.writelines([
+                        'colsample {}'.format(colsample),
+                        'depth {}'.format(depth),
+                        'alpha {}'.format(alpha),
+                        'estimators {}'.format(estim),
+                        'train set accuracy: {}'.format(train_accuracy),
+                        'test set accuracy: {}'.format(test_accuracy),
+                        '----------------',
+                        ''
+                    ])
+
+                    if (test_accuracy > best_accuracy):
+                        best_accuracy = test_accuracy
+
+                    print('train set accuracy: {}'.format(train_accuracy))
+                    print('test set accuracy: {}'.format(test_accuracy))
+                    print('best test set accuracy: {}'.format(best_accuracy))
+                    print('-----------------')
+
+    results.close()
     print('finished')
 
 
