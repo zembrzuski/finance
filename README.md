@@ -27,3 +27,7 @@ https://mrjbq7.github.io/ta-lib/func_groups/momentum_indicators.html
 uns graficos maravilhosos:
 ----
 https://towardsdatascience.com/trading-strategy-technical-analysis-with-python-ta-lib-3ce9d6ce5614
+
+como fazer regressao logistica -- e outras coisas -- em python:
+---
+https://towardsdatascience.com/building-a-logistic-regression-in-python-301d27367c24
