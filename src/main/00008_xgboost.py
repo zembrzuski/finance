@@ -3,6 +3,7 @@ from sklearn.metrics import confusion_matrix as confusion
 import src.service.file_io_service_for_machine_learning as ml_loader
 import xgboost as xgb
 import sklearn.metrics as metrics
+from xgboost.sklearn import XGBClassifier
 
 
 def compute_accuracy(xg_reg, x, y):
@@ -58,11 +59,20 @@ def do_lots_of_tests(x_train, x_test, y_train, y_test):
 
 
 def do_simple_xgboost_regression(x_train, y_train, x_test, y_test):
-    xg_reg = xgb.XGBRegressor(objective='reg:linear', colsample_bytree=0.3, learning_rate=0.1,
-                              max_depth=5, alpha=10, n_estimators=10)
+    xg_reg = XGBClassifier(silent=False,
+                          scale_pos_weight=1,
+                          learning_rate=0.01,
+                          colsample_bytree=0.4,
+                          subsample=0.8,
+                          objective='binary:logistic',
+                          n_estimators=1000,
+                          reg_alpha=0.3,
+                          max_depth=4,
+                          gamma=10)
 
-    xg_reg.fit(x_train, y_train)
-
+    eval_set = [(x_train, y_train), (x_test, y_test)]
+    eval_metric = ["auc", "error"]
+    xg_reg.fit(x_train, y_train, eval_metric=eval_metric, eval_set=eval_set, verbose=True)
     train_accuracy = compute_accuracy(xg_reg, x_train, y_train)
     test_accuracy = compute_accuracy(xg_reg, x_test, y_test)
 
@@ -88,8 +98,8 @@ def main():
     # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0)
     x_train, x_test, y_train, y_test = my_split(x, y, test_size=0.3)
 
-    do_lots_of_tests(x_train, x_test, y_train, y_test)
-    # do_simple_xgboost_regression(x_train, y_train, x_test, y_test)
+    # do_lots_of_tests(x_train, x_test, y_train, y_test)
+    do_simple_xgboost_regression(x_train, y_train, x_test, y_test)
 
     print('finished')
 
