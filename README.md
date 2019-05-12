@@ -40,3 +40,14 @@ https://towardsdatascience.com/fine-tuning-xgboost-in-python-like-a-boss-b4543ed
 esse cara aqui mostra como usar cross-validation:
 ---
 http://danielhnyk.cz/how-to-use-xgboost-in-python/
+
+
+
+
+proximos passos para tentar fazer essa engronha dar certo:
+---
+- colocar mais indicadores
+- early stopping ou regularização para evitar overfitting
+- fazer um threshold e fazer um simulador (backtesting) para ver se a bagaça
+  dá lucro utilizando esse threshold.
+
