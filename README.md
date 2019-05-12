@@ -32,3 +32,11 @@ como fazer regressao logistica -- e outras coisas -- em python:
 ---
 https://towardsdatascience.com/building-a-logistic-regression-in-python-301d27367c24
 https://www.datacamp.com/community/tutorials/xgboost-in-python
+
+esse cara aqui eu acho que posso usar para tentar melhorar meu xgboost:
+---
+https://towardsdatascience.com/fine-tuning-xgboost-in-python-like-a-boss-b4543ed8b1e
+
+esse cara aqui mostra como usar cross-validation:
+---
+http://danielhnyk.cz/how-to-use-xgboost-in-python/
