@@ -48,6 +48,7 @@ proximos passos para tentar fazer essa engronha dar certo:
 ---
 - colocar mais indicadores
 - early stopping ou regularização para evitar overfitting
+- tentar fazer um novo label, isto é, true se subir 5%, false se cair 2%
 - fazer um threshold e fazer um simulador (backtesting) para ver se a bagaça
   dá lucro utilizando esse threshold.
 
